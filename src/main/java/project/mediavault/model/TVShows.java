@@ -10,5 +10,5 @@ import java.util.List;
 public class TVShows extends Media {
 
     private List<Episode> episodes;
-
+    private 
 }
