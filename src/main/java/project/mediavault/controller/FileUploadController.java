@@ -17,7 +17,7 @@ import java.security.SecureRandom;
  * @author Carl Li
  */
 @RestController
-//@RequestMapping("/api/files")
+@RequestMapping("/api/files")
 public class FileUploadController {
 
     private SecureRandom random = new SecureRandom();
@@ -27,7 +27,7 @@ public class FileUploadController {
     }
 
     @CrossOrigin(origins = "http://localhost:8377")
-    @RequestMapping("/api/files/add")
+    @RequestMapping("/add")
     public ResponseEntity<ModelMap> uploadFile(@RequestParam("file") MultipartFile file) {
         ModelMap modelMap = new ModelMap("success", true)
                 .addAttribute("fileURL", "/files/" + fileNameRandomSeed() + "-" + file.getOriginalFilename());
