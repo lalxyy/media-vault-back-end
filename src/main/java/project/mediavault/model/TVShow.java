@@ -7,7 +7,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class TVShows extends Media {
+public class TVShow extends Media {
 
     private List<Episode> episodes;
 
