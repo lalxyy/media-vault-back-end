@@ -3,7 +3,7 @@ package project.mediavault.model;
 import lombok.Data;
 
 @Data
-public class Media {
+public abstract class Media {
 
     private int id;
     private String title;
