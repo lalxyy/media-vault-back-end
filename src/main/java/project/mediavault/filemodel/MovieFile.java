@@ -13,6 +13,29 @@ public class MovieFile {
         updateDocumentFromMovie();
     }
 
+    public MovieFile(Document document) {
+        this.document = document;
+        updateMovieFromDocument();
+    }
+
+    public Movie getMovie() {
+        return this.movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+        updateDocumentFromMovie();
+    }
+
+    public Document getDocument() {
+        return this.document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+        updateMovieFromDocument();
+    }
+
     public int getId() {
         return movie.getId();
     }
