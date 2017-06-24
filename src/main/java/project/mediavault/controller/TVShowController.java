@@ -1,6 +1,7 @@
 package project.mediavault.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,7 @@ public class TVShowController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ModelMap> delete(@PathVariable("id") int id) {
+        return new ResponseEntity<ModelMap>(new ModelMap(), HttpStatus.INTERNAL_SERVER_ERROR);
         return ResponseEntity.ok(new ModelMap("success", true));
     }
 

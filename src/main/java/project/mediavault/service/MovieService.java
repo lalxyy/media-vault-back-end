@@ -30,6 +30,7 @@ import java.util.stream.Stream;
  *
  * @author Carl Li
  */
+@SuppressWarnings("Duplicates")
 @Service
 public class MovieService {
 
@@ -64,7 +65,8 @@ public class MovieService {
         return movieList;
     }
 
-    public boolean saveNewMovie(MovieFile movieFile) {
+    public boolean saveNewMovie(Movie movie) {
+        MovieFile movieFile = new MovieFile(movie);
         try {
             Document document = movieFile.getDocument();
             DOMSource domSource = new DOMSource(document);
