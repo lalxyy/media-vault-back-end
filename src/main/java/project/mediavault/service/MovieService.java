@@ -98,7 +98,17 @@ public class MovieService {
         }
     }
 
-    public boolean deleteMovie(MovieFile movieFile) {
+    public boolean deleteMovie(int id) {
+        MovieFile movieFile = null;
+        for (MovieFile file: movieFiles) {
+            if (file.getId() == id) {
+                movieFile = file;
+            }
+        }
+        if (movieFile == null) {
+            return false;
+        }
+
         try {
             Files.delete(Paths.get(DIR_FILES + movieFile.getId() + ".nfo"));
             return true;
