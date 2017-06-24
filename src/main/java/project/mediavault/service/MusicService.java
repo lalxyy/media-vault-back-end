@@ -95,7 +95,17 @@ public class MusicService {
         }
     }
 
-    public boolean deleteMusic(MusicFile musicFile) {
+    public boolean deleteMusic(int id) {
+        MusicFile musicFile = null;
+        for (MusicFile file: musicFiles) {
+            if (file.getId() == id) {
+                musicFile = file;
+            }
+        }
+        if (musicFile == null) {
+            return false;
+        }
+
         try {
             Files.delete(Paths.get(DIR_FILES + musicFile.getId() + ".nfo"));
             return true;
