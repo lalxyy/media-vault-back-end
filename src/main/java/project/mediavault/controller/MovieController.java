@@ -20,6 +20,11 @@ public class MovieController {
         this.movieService = movieService;
     }
 
+    /**
+     * Get the movie list and return a ResponseEntity of ModelMap for GET request
+     *
+     * @return a ResponseEntity of ModelMap
+     */
     @GetMapping
     public ResponseEntity<ModelMap> getAllList() {
         List<Movie> movieList = movieService.getAllList();
@@ -28,18 +33,22 @@ public class MovieController {
         return ResponseEntity.ok(result);
     }
 
+    // TODO 补全
     @PostMapping
     public ResponseEntity<ModelMap> addNewMovie(@RequestBody Movie movie) {
+        // TODO [ newly modified ]
         boolean result = movieService.saveNewMovie(movie);
-
-        if (result) {
-
-        }
+        return ResponseEntity.ok(new ModelMap("isSuccessful", result));
+//        if (result) {
+//
+//        }
     }
 
+    // TODO 补全
     @DeleteMapping("/{id}")
     public ResponseEntity<ModelMap> deleteMovie(@PathVariable("id") int id) {
 //        boolean result =
+        return null;
     }
 
     @GetMapping("/{id}")
