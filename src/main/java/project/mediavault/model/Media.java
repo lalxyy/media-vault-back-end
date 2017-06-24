@@ -4,14 +4,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.w3c.dom.Document;
 
+import java.util.List;
+
 
 @Data
 public abstract class Media {
-
+    // Basic Media Information
     private int id;
     private String title;
-    private String type;
-    private String year;
+    private Double rating;
+
+//    // Information of the Media
+//    private List<String> genre;
+//
+//    // Information of the
+//    private String year;
+
+    // Information of storing
     private String thumbnailURL;
     private String fileURL;
 
