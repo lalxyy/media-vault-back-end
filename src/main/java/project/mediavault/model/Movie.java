@@ -11,5 +11,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Movie extends Media {
-    //
+    private String time;
 }

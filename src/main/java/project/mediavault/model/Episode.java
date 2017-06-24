@@ -10,4 +10,6 @@ public class Episode {
     private int episode;
     private String fileURL;
 
+    // Measurement Unit = Byte
+    private Long size; // The size of each episode cannot be null
 }

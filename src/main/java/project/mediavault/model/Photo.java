@@ -11,5 +11,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Photo extends Media {
-    //
+    // No extra field temporarily
 }
