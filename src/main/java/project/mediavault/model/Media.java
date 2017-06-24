@@ -27,6 +27,4 @@ public abstract class Media {
     // Measurement Unit = Byte
     private Long size; // For TV Shows, the value of (total) size can be null
 
-    @JsonIgnore
-    private Document metaFile;
 }
