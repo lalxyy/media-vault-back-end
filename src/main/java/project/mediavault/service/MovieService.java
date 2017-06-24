@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import project.mediavault.filemodel.MovieFile;
 
 import javax.xml.parsers.DocumentBuilder;
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * Movie Service.
@@ -18,7 +20,7 @@ import java.io.IOException;
 public class MovieService {
 
     private static final String FILE_PATH = "";
-    private Document document;
+    private Set<MovieFile> movieFiles;
 
     @Autowired
     public MovieService(DocumentBuilder documentBuilder) throws IOException, SAXException {

@@ -3,6 +3,8 @@ package project.mediavault.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
  * Movie model.
  *
@@ -11,5 +13,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Movie extends Media {
-    private String time;
+    private String duration;
+    private String plot;
+    private List<String> genres;
+    private int rating;
 }
