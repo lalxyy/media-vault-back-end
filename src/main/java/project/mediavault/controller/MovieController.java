@@ -9,6 +9,9 @@ import project.mediavault.service.MovieService;
 
 import java.util.List;
 
+/**
+ * Movies Controller / APIs
+ */
 @RestController
 @RequestMapping("/api/movie")
 public class MovieController {
@@ -28,12 +31,18 @@ public class MovieController {
     @GetMapping
     public ResponseEntity<ModelMap> getAllList() {
         List<Movie> movieList = movieService.getAllList();
-        ModelMap result = new ModelMap("isSuccessful", true)
+        ModelMap resultMap = new ModelMap("isSuccessful", true)
                 .addAttribute("data", movieList);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(resultMap);
     }
 
-    // TODO 补全
+
+    /**
+     * Add a new movie
+     *
+     * @param movie movie entity (@RequestBody)
+     * @return a ResponseEntity of ModelMap
+     */
     @PostMapping
     public ResponseEntity<ModelMap> addNewMovie(@RequestBody Movie movie) {
         // TODO [ newly modified ]
@@ -44,13 +53,24 @@ public class MovieController {
 //        }
     }
 
-    // TODO 补全
+    /**
+     * Delete a movie
+     *
+     * @param id of the movie (@PathVariable)
+     * @return a ResponseEntity of ModelMap of the deletion result
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<ModelMap> deleteMovie(@PathVariable("id") int id) {
-//        boolean result =
+//        boolean result = movieService.deleteMovie(id)
         return null;
     }
 
+    /**
+     * Get the detail of the movie
+     *
+     * @param id of the movie (@PathVariable)
+     * @return a ResponseEntity of ModelMap containing the details
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ModelMap> getMovieDetail(@PathVariable("id") int id) {
         Movie movie = movieService.getMovieById(id);
