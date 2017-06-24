@@ -61,8 +61,8 @@ public class MovieController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<ModelMap> deleteMovie(@PathVariable("id") int id) {
-//        boolean result = movieService.deleteMovie(id)
-        return null;
+        boolean result = movieService.deleteMovie(id);
+        return ResponseEntity.ok(new ModelMap("isSuccessful", result));
     }
 
     /**
