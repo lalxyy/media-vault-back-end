@@ -1,10 +1,6 @@
 package project.mediavault.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.w3c.dom.Document;
-
-import java.util.List;
 
 
 @Data
