@@ -10,6 +10,7 @@ import project.mediavault.model.TVShow;
 import project.mediavault.service.TVShowService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * TV Show & Episode Controller / APIs
@@ -112,8 +113,15 @@ public class TVShowController {
 
     @GetMapping("/{id}/episode")
     public ResponseEntity<ModelMap> getEpisodes(@PathVariable("id") int id) {
-
         return ResponseEntity.ok(new ModelMap("data", tvShowService.getEpisodes(id)).addAttribute("isSuccessful", true));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ModelMap> getTVShow(@PathVariable("id") int id) {
+        Map<String, Object> map = tvShowService.getTVShowWithAllEpisode(id);
+        ModelMap result = new ModelMap("isSuccessful", true)
+                .addAttribute("data", map);
+        return ResponseEntity.ok(result);
     }
 
 }

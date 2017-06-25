@@ -1,10 +1,12 @@
 package project.mediavault.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import project.mediavault.service.FileUploadService;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -20,18 +22,20 @@ import java.security.SecureRandom;
 @RequestMapping("/api/files")
 public class FileUploadController {
 
-    private SecureRandom random = new SecureRandom();
+    private FileUploadService fileUploadService;
 
-    private String fileNameRandomSeed() {
-        return new BigInteger(130, random).toString(32);
+    @Autowired
+    public FileUploadController(FileUploadService fileUploadService) {
+        this.fileUploadService = fileUploadService;
     }
 
     @CrossOrigin(origins = "http://localhost:8377")
     @RequestMapping("/add")
     public ResponseEntity<ModelMap> uploadFile(@RequestParam("file") MultipartFile file) {
-        ModelMap modelMap = new ModelMap("success", true)
-                .addAttribute("fileURL", "/files/" + fileNameRandomSeed() + "-" + file.getOriginalFilename());
-        return new ResponseEntity<>(modelMap, HttpStatus.OK);
+        String url = fileUploadService.writeFile(file);
+        ModelMap result = new ModelMap("isSuccessful", true)
+                .addAttribute("data", new ModelMap("url", url));
+        return ResponseEntity.ok(result);
 
 //        try (RandomAccessFile randomAccessFile = new RandomAccessFile(file.getOriginalFilename() + fileNameRandomSeed(), "rw")) {
 //            //

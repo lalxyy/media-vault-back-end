@@ -202,7 +202,7 @@ public class TVShowFile {
 
         try {
             NodeList actorNameNodes = (NodeList) xPath.compile("/tv-show/actor/name").evaluate(document, XPathConstants.NODESET);
-            NodeList actorRoleNodes = (NodeList) xPath.compile("/tv-show/actor/name").evaluate(document, XPathConstants.NODESET);
+            NodeList actorRoleNodes = (NodeList) xPath.compile("/tv-show/actor/role").evaluate(document, XPathConstants.NODESET);
             NodeList actorThumbURLNodes = (NodeList) xPath.compile("/tv-show/actor/thumbURL").evaluate(document, XPathConstants.NODESET);
             for (int i = 0; i < actorNameNodes.getLength(); ++i) {
                 Actor actor = new Actor();

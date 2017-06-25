@@ -1,5 +1,6 @@
 package project.mediavault.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -38,13 +39,16 @@ public class TVShowService {
 
     private DocumentBuilder documentBuilder;
     private Transformer transformer;
+    private ObjectMapper objectMapper;
+
     private Set<TVShowFile> tvShowFiles = new HashSet<>();
     private Set<EpisodeFile> episodeFiles = new HashSet<>();
 
     @Autowired
-    public TVShowService(DocumentBuilder documentBuilder, TransformerFactory transformerFactory) throws IOException, SAXException, TransformerConfigurationException {
+    public TVShowService(DocumentBuilder documentBuilder, TransformerFactory transformerFactory, ObjectMapper objectMapper) throws IOException, SAXException, TransformerConfigurationException {
         this.documentBuilder = documentBuilder;
         this.transformer = transformerFactory.newTransformer();
+        this.objectMapper = objectMapper;
 
         try (Stream<Path> pathStream = Files.walk(Paths.get(DIR_FILES))) {
             pathStream
@@ -69,6 +73,24 @@ public class TVShowService {
                         }
                     });
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getTVShowWithAllEpisode(int id) {
+        TVShowFile tvShowFile = null;
+        for (TVShowFile file: tvShowFiles) {
+            if (file.getId() == id) {
+                tvShowFile = file;
+            }
+        }
+        if (tvShowFile == null) {
+            return null;
+        }
+
+        Map<String, Object> map = objectMapper.convertValue(tvShowFile.getTVShow(), Map.class);
+        List<Episode> episodeList = getEpisodes(id);
+        map.put("episodes", episodeList);
+        return map;
     }
 
     public List<TVShow> getAllList() {
