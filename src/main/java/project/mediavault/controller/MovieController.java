@@ -18,6 +18,11 @@ public class MovieController {
 
     private MovieService movieService;
 
+    /**
+     * The parameter is Autowired by Spring Framework
+     *
+     * @param movieService will be autowired by Spring Framework
+     */
     @Autowired
     public MovieController(MovieService movieService) {
         this.movieService = movieService;
