@@ -3,6 +3,7 @@ package project.mediavault.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,8 +17,8 @@ public class Movie extends Media {
     // Basic Media Information of Movie
     private String duration; // "Length of movie in minutes", but what if duration = mm:ss ? [Using String]
 
-    // The information of the content of the Movie
-    private List<String> genres;
+    // The informationx of the content of the Movie
+    private List<String> genres = new ArrayList<>();
     private String plot;
 
 }

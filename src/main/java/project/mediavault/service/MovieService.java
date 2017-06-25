@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -38,18 +39,23 @@ public class MovieService {
 
     private DocumentBuilder documentBuilder;
     private Transformer transformer;
-    private Set<MovieFile> movieFiles;
+    private Set<MovieFile> movieFiles = new HashSet<>();
 
     @Autowired
     public MovieService(DocumentBuilder documentBuilder, TransformerFactory transformerFactory) throws IOException, SAXException, TransformerConfigurationException {
         this.documentBuilder = documentBuilder;
         this.transformer = transformerFactory.newTransformer();
+        System.out.println("hrllop");
 
         // https://stackoverflow.com/questions/1844688/read-all-files-in-a-folder
         try (Stream<Path> pathStream = Files.walk(Paths.get(DIR_FILES))) {
             pathStream
-                    .filter(path -> path.getFileName().endsWith(".nfo"))
+                    .filter(path -> {
+                        System.out.println(path.getFileName());
+                        return path.getFileName().endsWith(".nfo");
+                    })
                     .forEach(path -> {
+                        System.out.println(path.getFileName());
                         try {
                             movieFiles.add(new MovieFile(documentBuilder.parse(path.toFile())));
                         } catch (SAXException | IOException e) {
@@ -61,16 +67,19 @@ public class MovieService {
 
     public List<Movie> getAllList() {
         List<Movie> movieList = new ArrayList<>();
-        movieFiles.forEach(movieFile -> movieList.add(movieFile.getMovie()));
+        movieFiles.forEach(
+                movieFile -> movieList.add(movieFile.getMovie())
+        );
         return movieList;
     }
 
     public boolean saveNewMovie(Movie movie) {
+        movie.setId(movieFiles.size());
         MovieFile movieFile = new MovieFile(movie);
         try {
             Document document = movieFile.getDocument();
             DOMSource domSource = new DOMSource(document);
-            File file = new File(DIR_FILES + movieFile.getId() + ".nfo");
+            File file = new File(DIR_FILES + "/" + movieFile.getId() + ".nfo");
             StreamResult streamResult = new StreamResult(file);
             transformer.transform(domSource, streamResult);
 
@@ -87,7 +96,7 @@ public class MovieService {
         try {
             Document document = movieFile.getDocument();
             DOMSource domSource = new DOMSource(document);
-            File file = new File(DIR_FILES + movieFile.getId() + ".nfo");
+            File file = new File(DIR_FILES + "/" + movieFile.getId() + ".nfo");
             StreamResult streamResult = new StreamResult(file);
             transformer.transform(domSource, streamResult);
 
@@ -110,7 +119,7 @@ public class MovieService {
         }
 
         try {
-            Files.delete(Paths.get(DIR_FILES + movieFile.getId() + ".nfo"));
+            Files.delete(Paths.get(DIR_FILES + movieFile.getId() + "/" + ".nfo"));
             return true;
         } catch (Exception e) {
             e.printStackTrace();

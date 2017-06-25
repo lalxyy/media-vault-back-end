@@ -47,10 +47,11 @@ public class MovieController {
     public ResponseEntity<ModelMap> addNewMovie(@RequestBody Movie movie) {
         // TODO [ newly modified ]
         boolean result = movieService.saveNewMovie(movie);
-        return ResponseEntity.ok(new ModelMap("isSuccessful", result));
-//        if (result) {
-//
-//        }
+        if (result) {
+            return ResponseEntity.ok(new ModelMap("isSuccessful", true));
+        } else {
+            return ResponseEntity.ok(new ModelMap("isSuccessful", false));
+        }
     }
 
     /**

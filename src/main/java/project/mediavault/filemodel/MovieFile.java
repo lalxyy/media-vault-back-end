@@ -2,8 +2,13 @@ package project.mediavault.filemodel;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import project.mediavault.model.Movie;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.util.List;
 
 public class MovieFile {
@@ -137,14 +142,68 @@ public class MovieFile {
 
     // TODO Update Document
     private void updateDocumentFromMovie() {
-        Element rootElement = document.createElement("movie");
-        document.appendChild(rootElement);
+        try {
+            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
 
-//        Element
+        Document d = document;
+        Node rootElement = d.createElement("movie");
+
+        Node idElement = d.createElement("id");
+        idElement.appendChild(d.createTextNode("" + getId()));
+        Node titleElement = d.createElement("title");
+        titleElement.appendChild(d.createTextNode(getTitle()));
+        Node thumbnailURLElement = d.createElement("thumbnailURL");
+        thumbnailURLElement.appendChild(d.createTextNode(getThumbnailURL()));
+        Node fileURLElement = d.createElement("fileURL");
+        fileURLElement.appendChild(d.createTextNode(getFileURL()));
+        Node sizeElement = d.createElement("size");
+        sizeElement.appendChild(d.createTextNode("" + getSize()));
+        Node ratingElement = d.createElement("rating");
+        ratingElement.appendChild(d.createTextNode("" + getRating()));
+
+        rootElement.appendChild(idElement);
+        rootElement.appendChild(titleElement);
+        rootElement.appendChild(thumbnailURLElement);
+        rootElement.appendChild(fileURLElement);
+        rootElement.appendChild(sizeElement);
+        rootElement.appendChild(ratingElement);
+
+        Node durationElement = d.createElement("duration");
+        durationElement.appendChild(d.createTextNode(getDuration()));
+        Node plotElement = d.createElement("plot");
+        plotElement.appendChild(d.createTextNode(getPlot()));
+
+        rootElement.appendChild(durationElement);
+        rootElement.appendChild(plotElement);
+        getGenres().forEach(genre -> {
+            Element element = d.createElement("genre");
+            element.appendChild(d.createTextNode(genre));
+            rootElement.appendChild(element);
+        });
+
+
+        document.appendChild(rootElement);
     }
 
     private void updateMovieFromDocument() {
-        //
+        Document d = document;
+        movie = new Movie();
+        movie.setId(Integer.parseInt(d.getElementsByTagName("id").item(0).getTextContent()));
+        movie.setTitle(d.getElementsByTagName("title").item(0).getTextContent());
+        movie.setSize(Long.parseLong(d.getElementsByTagName("size").item(0).getTextContent()));
+        movie.setFileURL(d.getElementsByTagName("fileURL").item(0).getTextContent());
+        movie.setThumbnailURL(d.getElementsByTagName("thumbnailURL").item(0).getTextContent());
+        movie.setRating(Double.parseDouble(d.getElementsByTagName("rating").item(0).getTextContent()));
+
+        NodeList genreNodeList = d.getElementsByTagName("genre");
+        for (int i = 0; i < genreNodeList.getLength(); ++i) {
+            movie.getGenres().add(genreNodeList.item(i).getTextContent());
+        }
+        movie.setPlot(d.getElementsByTagName("plot").item(0).getTextContent());
+        movie.setDuration(d.getElementsByTagName("duration").item(0).getTextContent());
     }
 
 }

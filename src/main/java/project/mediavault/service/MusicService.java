@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 @Service
 public class MusicService {
 
-    private static final String DIR_FILES = MediaVaultApplication.BASE_DIR + "/file/movie";
+    private static final String DIR_FILES = MediaVaultApplication.BASE_DIR + "/file/music";
 
     private DocumentBuilder documentBuilder;
     private Transformer transformer;
