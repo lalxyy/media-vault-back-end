@@ -45,17 +45,12 @@ public class MovieService {
     public MovieService(DocumentBuilder documentBuilder, TransformerFactory transformerFactory) throws IOException, SAXException, TransformerConfigurationException {
         this.documentBuilder = documentBuilder;
         this.transformer = transformerFactory.newTransformer();
-        System.out.println("hrllop");
 
         // https://stackoverflow.com/questions/1844688/read-all-files-in-a-folder
         try (Stream<Path> pathStream = Files.walk(Paths.get(DIR_FILES))) {
             pathStream
-                    .filter(path -> {
-                        System.out.println(path.getFileName());
-                        return path.getFileName().endsWith(".nfo");
-                    })
+                    .filter(path -> path.getFileName().toString().endsWith(".nfo"))
                     .forEach(path -> {
-                        System.out.println(path.getFileName());
                         try {
                             movieFiles.add(new MovieFile(documentBuilder.parse(path.toFile())));
                         } catch (SAXException | IOException e) {

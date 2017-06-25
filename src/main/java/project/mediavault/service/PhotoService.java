@@ -43,7 +43,7 @@ public class PhotoService {
 
         try (Stream<Path> pathStream = Files.walk(Paths.get(DIR_FILES))) {
             pathStream
-                    .filter(path -> path.getFileName().endsWith(".nfo"))
+                    .filter(path -> path.getFileName().toString().endsWith(".nfo"))
                     .forEach(path -> {
                         try {
                             photoFiles.add(new PhotoFile(documentBuilder.parse(path.toFile())));
