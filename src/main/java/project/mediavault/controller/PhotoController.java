@@ -1,9 +1,15 @@
 package project.mediavault.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import project.mediavault.model.Music;
+import project.mediavault.model.Photo;
 import project.mediavault.service.PhotoService;
+
+import java.util.List;
 
 /**
  * Photos Controller / APIs
@@ -16,5 +22,43 @@ public class PhotoController {
     @Autowired
     public PhotoController(PhotoService photoService) {
         this.photoService = photoService;
+    }
+
+    @GetMapping
+    public ResponseEntity<ModelMap> getAllList() {
+        List<Photo> photoList = photoService.getAllList();
+        ModelMap result = new ModelMap("isSuccessful", true)
+                .addAttribute("data", photoList);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping
+    public ResponseEntity<ModelMap> add(@RequestBody Photo photo) {
+        boolean isSuccessful = photoService.saveNewPhoto(photo);
+        ModelMap result = new ModelMap("isSuccessful", isSuccessful);
+        if (isSuccessful) {
+            return ResponseEntity.ok(result);
+        } else {
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ModelMap> delete(@PathVariable("id") int id) {
+        boolean isSuccessful = photoService.deletePhoto(id);
+        ModelMap result = new ModelMap("isSuccessful", isSuccessful);
+        if (isSuccessful) {
+            return ResponseEntity.ok(result);
+        } else {
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ModelMap> getDetails(@PathVariable("id") int id) {
+        Photo photo = photoService.getPhotoById(id);
+        ModelMap result = new ModelMap("isSuccessful", true)
+                .addAttribute("data", photo);
+        return ResponseEntity.ok(result);
     }
 }
