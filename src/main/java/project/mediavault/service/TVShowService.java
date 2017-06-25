@@ -27,8 +27,8 @@ public class TVShowService {
 
     @Autowired
     public TVShowService(DocumentBuilder documentBuilder) throws IOException, SAXException {
-        File file = new File(FILE_PATH);
-        document = documentBuilder.parse(file);
+//        File file = new File(FILE_PATH);
+//        document = documentBuilder.parse(file);
     }
 
     public List<TVShow> getAllList() {
