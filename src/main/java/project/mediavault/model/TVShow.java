@@ -8,11 +8,7 @@ import java.util.List;
 /**
  * Actor of a TV Show
  */
-class Actor {
-    private String name;
-    private String role;
-    private String thumbURL;
-}
+
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -28,8 +24,38 @@ public class TVShow extends Media {
     private String plot;
 
     // The episodes of a TV Show
-    private List<Episode> episodes;
+    private List<Integer> episodeIds;
 
     // The actors of a TV Show
     private List<Actor> actors;
+
+    public static class Actor {
+        private String name;
+        private String role;
+        private String thumbURL;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getRole() {
+            return role;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
+        }
+
+        public String getThumbURL() {
+            return thumbURL;
+        }
+
+        public void setThumbURL(String thumbURL) {
+            this.thumbURL = thumbURL;
+        }
+    }
 }

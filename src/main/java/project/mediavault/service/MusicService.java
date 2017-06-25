@@ -117,6 +117,7 @@ public class MusicService {
         }
 
         try {
+            musicFiles.remove(musicFile);
             Files.delete(Paths.get(DIR_FILES + "/" + musicFile.getId() + ".nfo"));
             return true;
         } catch (Exception e) {

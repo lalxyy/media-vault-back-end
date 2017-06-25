@@ -92,7 +92,8 @@ public class MovieService {
         }
     }
 
-    public boolean modifyExistedMovie(MovieFile movieFile) {
+    public boolean modifyExistedMovie(Movie movie) {
+        MovieFile movieFile = new MovieFile(movie);
         try {
             Document document = movieFile.getDocument();
             DOMSource domSource = new DOMSource(document);
@@ -119,6 +120,7 @@ public class MovieService {
         }
 
         try {
+            movieFiles.remove(movieFile);
             Files.delete(Paths.get(DIR_FILES + movieFile.getId() + "/" + ".nfo"));
             return true;
         } catch (Exception e) {

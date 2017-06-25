@@ -72,7 +72,7 @@ public class PhotoService {
         try {
             Document document = photoFile.getDocument();
             DOMSource domSource = new DOMSource(document);
-            File file = new File(DIR_FILES + photoFile.getId() + ".nfo");
+            File file = new File(DIR_FILES + "/" + photoFile.getId() + ".nfo");
             StreamResult streamResult = new StreamResult(file);
             transformer.transform(domSource, streamResult);
 
@@ -90,7 +90,7 @@ public class PhotoService {
         try {
             Document document = photoFile.getDocument();
             DOMSource domSource = new DOMSource(document);
-            File file = new File(DIR_FILES + photoFile.getId() + ".nfo");
+            File file = new File(DIR_FILES + "/" + photoFile.getId() + ".nfo");
             StreamResult streamResult = new StreamResult(file);
             transformer.transform(domSource, streamResult);
 
@@ -113,7 +113,8 @@ public class PhotoService {
         }
 
         try {
-            Files.delete(Paths.get(DIR_FILES + photoFile.getId() + ".nfo"));
+            photoFiles.remove(photoFile);
+            Files.delete(Paths.get(DIR_FILES + "/" + photoFile.getId() + ".nfo"));
             return true;
         } catch (Exception e) {
             e.printStackTrace();

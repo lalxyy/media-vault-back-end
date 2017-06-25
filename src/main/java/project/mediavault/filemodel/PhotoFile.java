@@ -114,7 +114,7 @@ public class PhotoFile {
 
     private void updatePhotoFromDocument() {
         Document d = document;
-        Photo photo = new Photo();
+        photo = new Photo();
         photo.setId(Integer.parseInt(d.getElementsByTagName("id").item(0).getTextContent()));
         photo.setTitle(d.getElementsByTagName("title").item(0).getTextContent());
         photo.setSize(Long.parseLong(d.getElementsByTagName("size").item(0).getTextContent()));
