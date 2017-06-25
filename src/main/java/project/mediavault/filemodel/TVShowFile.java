@@ -224,7 +224,7 @@ public class TVShowFile {
         }
 
         Document d = document;
-        Node rootElement = d.createElement("tv-show");
+        Element rootElement = d.createElement("tv-show");
 
         Node idElement = d.createElement("id");
         idElement.appendChild(d.createTextNode("" + getId()));
@@ -249,6 +249,18 @@ public class TVShowFile {
         studioElement.appendChild(d.createTextNode(getStudio()));
         Node mpaaElement = d.createElement("mpaa");
         mpaaElement.appendChild(d.createTextNode(getMpaa()));
+
+        rootElement.appendChild(idElement);
+        rootElement.appendChild(titleElement);
+        rootElement.appendChild(thumbnailURLElement);
+        rootElement.appendChild(fileURLElement);
+        rootElement.appendChild(sizeElement);
+        rootElement.appendChild(ratingElement);
+        rootElement.appendChild(plotElement);
+        rootElement.appendChild(runtimeElement);
+        rootElement.appendChild(premieredElement);
+        rootElement.appendChild(studioElement);
+        rootElement.appendChild(mpaaElement);
 
         getGenres().forEach(genre -> {
             Element element = d.createElement("genre");
@@ -275,6 +287,8 @@ public class TVShowFile {
             element.appendChild(thumbURLElement);
             rootElement.appendChild(element);
         });
+
+        document.appendChild(rootElement);
     }
 
 }

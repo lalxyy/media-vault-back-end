@@ -34,6 +34,7 @@ import java.util.stream.Stream;
 public class TVShowService {
 
     private static final String DIR_FILES = MediaVaultApplication.BASE_DIR + "/file/tvshow";
+    private static final String DIR_EPISODES = MediaVaultApplication.BASE_DIR + "/file/episode";
 
     private DocumentBuilder documentBuilder;
     private Transformer transformer;
@@ -45,13 +46,24 @@ public class TVShowService {
         this.documentBuilder = documentBuilder;
         this.transformer = transformerFactory.newTransformer();
 
-        // https://stackoverflow.com/questions/1844688/read-all-files-in-a-folder
         try (Stream<Path> pathStream = Files.walk(Paths.get(DIR_FILES))) {
             pathStream
                     .filter(path -> path.getFileName().toString().endsWith(".nfo"))
                     .forEach(path -> {
                         try {
                             tvShowFiles.add(new TVShowFile(documentBuilder.parse(path.toFile())));
+                        } catch (SAXException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+        }
+
+        try (Stream<Path> pathStream = Files.walk(Paths.get(DIR_EPISODES))) {
+            pathStream
+                    .filter(path -> path.getFileName().toString().endsWith(".nfo"))
+                    .forEach(path -> {
+                        try {
+                            episodeFiles.add(new EpisodeFile(documentBuilder.parse(path.toFile())));
                         } catch (SAXException | IOException e) {
                             e.printStackTrace();
                         }
@@ -81,6 +93,17 @@ public class TVShowService {
         try {
             tvShowFiles.remove(tvShowFile);
             Files.delete(Paths.get(DIR_FILES + tvShowFile.getId() + "/" + ".nfo"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            for (EpisodeFile episodeFile: episodeFiles) {
+                if (tvShowFile.getEpisodeIds().contains(episodeFile.getId())) {
+                    return deleteEpisode(tvShowFile.getId(), episodeFile.getSeason(), episodeFile.getEpisode());
+                }
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,19 +162,81 @@ public class TVShowService {
             }
         }
         if (tvShowFile == null) {
-            return false;
+            return new ArrayList<>();
         }
 
+        List<Integer> episodeItemIds = tvShowFile.getEpisodeIds();
         List<Episode> episodeList = new ArrayList<>();
+        for (EpisodeFile episodeFile: episodeFiles) {
+            if (episodeItemIds.contains(episodeFile.getId())) {
+                episodeList.add(episodeFile.getEpisodeItem());
+            }
+        }
         return episodeList;
     }
 
     public boolean deleteEpisode(int id, int season, int episode) {
+        TVShowFile tvShowFile = null;
+        for (TVShowFile file: tvShowFiles) {
+            if (file.getId() == id) {
+                tvShowFile = file;
+            }
+        }
+        if (tvShowFile == null) {
+            return false;
+        }
+
+        for (EpisodeFile episodeFile: episodeFiles) {
+            if (tvShowFile.getEpisodeIds().contains(episodeFile.getId()) && episodeFile.getSeason() == season && episodeFile.getEpisode() == episode) {
+                try {
+                    episodeFiles.remove(episodeFile);
+                    Files.delete(Paths.get(DIR_EPISODES + episodeFile.getId() + "/" + ".nfo"));
+                    tvShowFile.getEpisodeIds().remove(episodeFile.getId());
+                    return modify(tvShowFile.getTVShow());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
-    public boolean addEpisode(int id, Episode entity) {
-        return true;
+    public boolean addEpisode(int tvShowId, Episode episode) {
+        int id = 0;
+        Optional<Integer> nextId = episodeFiles.stream()
+                .map(EpisodeFile::getId)
+                .max(Comparator.comparingInt(value -> value));
+        if (nextId.isPresent()) {
+            id = nextId.get() + 1;
+        }
+
+        episode.setId(id);
+        EpisodeFile episodeFile = new EpisodeFile(episode);
+        try {
+            Document document = episodeFile.getDocument();
+            DOMSource domSource = new DOMSource(document);
+            File file = new File(DIR_FILES + "/" + episode.getId() + ".nfo");
+            StreamResult streamResult = new StreamResult(file);
+            transformer.transform(domSource, streamResult);
+
+            episodeFiles.add(episodeFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        TVShowFile tvShowFile = null;
+        for (TVShowFile file: tvShowFiles) {
+            if (file.getId() == tvShowId) {
+                tvShowFile = file;
+            }
+        }
+        if (tvShowFile == null) {
+            return false;
+        }
+        tvShowFile.getEpisodeIds().add(episode.getId());
+        return modify(tvShowFile.getTVShow());
     }
 
 }

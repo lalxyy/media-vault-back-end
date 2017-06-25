@@ -3,6 +3,7 @@ package project.mediavault.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,14 +21,14 @@ public class TVShow extends Media {
     private String mpaa;
 
     // The information of the content of the TV Show
-    private List<String> genres;
+    private List<String> genres = new ArrayList<>();
     private String plot;
 
     // The episodes of a TV Show
-    private List<Integer> episodeIds;
+    private List<Integer> episodeIds = new ArrayList<>();
 
     // The actors of a TV Show
-    private List<Actor> actors;
+    private List<Actor> actors = new ArrayList<>();
 
     public static class Actor {
         private String name;

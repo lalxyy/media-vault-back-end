@@ -34,8 +34,6 @@ public class TVShowController {
      */
     @GetMapping
     public ResponseEntity<ModelMap> getAll() {
-        // TODO 【这里是也是改成要返回带isSuccessful的么？】
-//        return new ModelMap("data", tvShowService.getAllList());
         List<TVShow> tvShowList = tvShowService.getAllList();
         ModelMap resultMap = new ModelMap("isSuccessful", true)
                 .addAttribute("data", tvShowList);
@@ -50,14 +48,13 @@ public class TVShowController {
      */
     @PostMapping
     public ResponseEntity<ModelMap> addTVShow(@RequestBody TVShow tvShow) {
-        // TODO [ newly modified ]
         boolean result = tvShowService.add(tvShow);
-        return ResponseEntity.ok(new ModelMap("isSuccessful", result));
-//        if (result) {
-//            return ResponseEntity.ok(new ModelMap("isSuccessful", true));
-//        } else {
-//            return ResponseEntity.ok(new ModelMap("isSuccessful", false));
-//        }
+//        return ResponseEntity.ok(new ModelMap("isSuccessful", result));
+        if (result) {
+            return ResponseEntity.ok(new ModelMap("isSuccessful", true));
+        } else {
+            return ResponseEntity.ok(new ModelMap("isSuccessful", false));
+        }
 
 //        return new ModelMap("success", true);
     }
@@ -70,11 +67,11 @@ public class TVShowController {
      * @param episode Episode entity (@RequestBody)
      * @return a ResponseEntity of ModelMap
      */
-    @PostMapping("/{id}") // TODO 还是用的POST，然后
+    @PostMapping("/{id}/episode")
     public ResponseEntity<ModelMap> addEpisode(@PathVariable("id") int id,
                                                @RequestBody Episode episode) {
         boolean result = tvShowService.addEpisode(id, episode);
-        return ResponseEntity.ok(new ModelMap("isSuccessful", result)); // TODO 直接返回的result
+        return ResponseEntity.ok(new ModelMap("isSuccessful", result));
     }
 
     /**
@@ -85,7 +82,7 @@ public class TVShowController {
      * @param episode episode ID (@RequestParam)
      * @return a ResponseEntity of ModelMap
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/episode")
     public ResponseEntity<ModelMap> deleteEpisode(@PathVariable("id") int id,
                                                   @RequestParam("season") int season,
                                                   @RequestParam("episode") int episode) {
@@ -102,14 +99,21 @@ public class TVShowController {
      *
      * @return result
      */
-    public ResponseEntity<?> deleteTVShow(@RequestParam("id") int id) {
-        // TODO 删除整个TVShow
-        return null;
+    @DeleteMapping
+    public ResponseEntity<ModelMap> deleteTVShow(@RequestParam("id") int id) {
+        boolean isSuccessful = tvShowService.delete(id);
+        ModelMap result = new ModelMap("isSuccessful", isSuccessful);
+        if (isSuccessful) {
+            return ResponseEntity.ok(result);
+        } else {
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}/episode")
     public ResponseEntity<ModelMap> getEpisodes(@PathVariable("id") int id) {
-        return ResponseEntity.ok(new ModelMap("data", tvShowService.getEpisodes(id)));
+
+        return ResponseEntity.ok(new ModelMap("data", tvShowService.getEpisodes(id)).addAttribute("isSuccessful", true));
     }
 
 }
