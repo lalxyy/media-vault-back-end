@@ -12,7 +12,7 @@ public abstract class Media {
     // Basic Media Information
     private int id;
     private String title;
-    private Double rating;
+    private double rating;
 
 //    // Information of the Media
 //    private List<String> genre;

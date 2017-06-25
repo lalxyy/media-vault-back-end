@@ -21,6 +21,7 @@ public class MovieFile {
         updateMovieFromDocument();
     }
 
+    // TODO Media File
     public Movie getMovie() {
         return this.movie;
     }
@@ -30,6 +31,7 @@ public class MovieFile {
         updateDocumentFromMovie();
     }
 
+    // TODO Document
     public Document getDocument() {
         return this.document;
     }
@@ -39,6 +41,7 @@ public class MovieFile {
         updateMovieFromDocument();
     }
 
+    // TODO Basic Fields
     public int getId() {
         return movie.getId();
     }
@@ -48,7 +51,7 @@ public class MovieFile {
         updateDocumentFromMovie();
     }
 
-    public String getTitle(String title) {
+    public String getTitle() {
         return movie.getTitle();
     }
 
@@ -57,12 +60,12 @@ public class MovieFile {
         updateDocumentFromMovie();
     }
 
-    public String getYear() {
-        return movie.getYear();
+    public double getRating() {
+        return movie.getRating();
     }
 
-    public void setYear(String year) {
-        movie.setYear(year);
+    public void setRating(double rating) {
+        movie.setRating(rating);
         updateDocumentFromMovie();
     }
 
@@ -84,17 +87,27 @@ public class MovieFile {
         updateDocumentFromMovie();
     }
 
-    public long getSize() {
+    public Long getSize() {
         return movie.getSize();
     }
 
-    public void setSize(long size) {
+    public void setSize(Long size) {
         movie.setSize(size);
         updateDocumentFromMovie();
     }
 
+//    public String getYear() {
+//        return movie.getYear();
+//    }
+//
+//    public void setYear(String year) {
+//        movie.setYear(year);
+//        updateDocumentFromMovie();
+//    }
+
     // ====
 
+    // TODO Extra Fields
     public String getDuration() {
         return movie.getDuration();
     }
@@ -122,20 +135,12 @@ public class MovieFile {
         updateDocumentFromMovie();
     }
 
-    public int getRating() {
-        return movie.getRating();
-    }
-
-    public void setRating(int rating) {
-        movie.setRating(rating);
-        updateDocumentFromMovie();
-    }
-
+    // TODO Update Document
     private void updateDocumentFromMovie() {
         Element rootElement = document.createElement("movie");
         document.appendChild(rootElement);
 
-        Element
+//        Element
     }
 
     private void updateMovieFromDocument() {

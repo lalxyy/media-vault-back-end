@@ -21,6 +21,7 @@ public class MusicFile {
         updateMusicFromDocument();
     }
 
+    // TODO Media
     public Music getMusic() {
         return music;
     }
@@ -30,6 +31,7 @@ public class MusicFile {
         updateDocumentFromMusic();
     }
 
+    // TODO Document
     public Document getDocument() {
         return document;
     }
@@ -39,6 +41,7 @@ public class MusicFile {
         updateMusicFromDocument();
     }
 
+    // TODO Basic Fields
     public int getId() {
         return music.getId();
     }
@@ -48,6 +51,63 @@ public class MusicFile {
         updateDocumentFromMusic();
     }
 
+    public String getTitle() {
+        return music.getTitle();
+    }
+
+    public void setTitle(String title) {
+        music.setTitle(title);
+        updateDocumentFromMusic();
+    }
+
+    public double getRating() {
+        return music.getRating();
+    }
+
+    public void setRating(double rating) {
+        music.setRating(rating);
+        updateDocumentFromMusic();
+    }
+
+    public String getThumbnailURL() {
+        return music.getThumbnailURL();
+    }
+
+    public void setThumbnailURL(String thumbnailURL) {
+        music.setThumbnailURL(thumbnailURL);
+        updateDocumentFromMusic();
+    }
+
+    public String getFileURL() {
+        return music.getFileURL();
+    }
+
+    public void setFileURL(String fileURL) {
+        music.setFileURL(fileURL);
+        updateDocumentFromMusic();
+    }
+
+    public Long getSize() {
+        return music.getSize();
+    }
+
+    public void setSize(Long size) {
+        music.setSize(size);
+        updateDocumentFromMusic();
+    }
+
+    // TODO Extra Fields
+    public String getDuration() {
+        return music.getDuration();
+    }
+
+    public void setDuration(String duration) {
+        music.setDuration(duration);
+        updateDocumentFromMusic();
+    }
+
+
+    // TODO Update Document
     private void updateMusicFromDocument() {
         //
     }
