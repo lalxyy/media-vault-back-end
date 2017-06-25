@@ -17,7 +17,7 @@ public class Episode {
 
     // Basic file information
     private String fileURL;
-    private String thumbURL;
+    private String thumbnailURL;
 
     // Measurement Unit = Byte
     private long size; // The size of each episode cannot be null

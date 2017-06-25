@@ -20,7 +20,4 @@ public class Movie extends Media {
     private List<String> genres;
     private String plot;
 
-    // Basic file information of Movie
-    private String thumbURL;
-
 }

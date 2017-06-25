@@ -74,9 +74,9 @@ public class MovieController {
     @GetMapping("/{id}")
     public ResponseEntity<ModelMap> getMovieDetail(@PathVariable("id") int id) {
         Movie movie = movieService.getMovieById(id);
-        ModelMap result = new ModelMap("isSuccessful", true)
+        ModelMap resultMap = new ModelMap("isSuccessful", true)
                 .addAttribute("data", movie);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(resultMap);
     }
 
 }
