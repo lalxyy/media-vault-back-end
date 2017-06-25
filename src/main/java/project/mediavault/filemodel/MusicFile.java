@@ -153,7 +153,7 @@ public class MusicFile {
 
     private void updateMusicFromDocument() {
         Document d = document;
-        Music music = new Music();
+        music = new Music();
         music.setId(Integer.parseInt(d.getElementsByTagName("id").item(0).getTextContent()));
         music.setTitle(d.getElementsByTagName("title").item(0).getTextContent());
         music.setSize(Long.parseLong(d.getElementsByTagName("size").item(0).getTextContent()));

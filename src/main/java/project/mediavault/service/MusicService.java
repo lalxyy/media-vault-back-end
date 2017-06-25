@@ -47,6 +47,7 @@ public class MusicService {
             pathStream
                     .filter(path -> path.getFileName().toString().endsWith(".nfo"))
                     .forEach(path -> {
+                        System.out.println(path);
                         try {
                             musicFiles.add(new MusicFile(documentBuilder.parse(path.toFile())));
                         } catch (SAXException | IOException e) {
