@@ -46,7 +46,7 @@ public class MusicService {
 
         try (Stream<Path> pathStream = Files.walk(Paths.get(DIR_FILES))) {
             pathStream
-                    .filter(path -> path.getFileName().endsWith(".nfo"))
+                    .filter(path -> path.getFileName().toString().endsWith(".nfo"))
                     .forEach(path -> {
                         try {
                             musicFiles.add(new MusicFile(documentBuilder.parse(path.toFile())));
