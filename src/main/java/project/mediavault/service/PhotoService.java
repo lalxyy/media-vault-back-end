@@ -21,9 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 @SuppressWarnings("Duplicates")
@@ -34,7 +32,7 @@ public class PhotoService {
 
     private DocumentBuilder documentBuilder;
     private Transformer transformer;
-    private Set<PhotoFile> photoFiles;
+    private Set<PhotoFile> photoFiles = new HashSet<>();
 
     @Autowired
     public PhotoService(DocumentBuilder documentBuilder, TransformerFactory transformerFactory) throws IOException, SAXException, TransformerConfigurationException {
@@ -61,6 +59,15 @@ public class PhotoService {
     }
 
     public boolean saveNewPhoto(Photo photo) {
+        int id = 0;
+        Optional<Integer> nextId = photoFiles.stream()
+                .map(PhotoFile::getId)
+                .max(Comparator.comparingInt(value -> value));
+        if (nextId.isPresent()) {
+            id = nextId.get() + 1;
+        }
+
+        photo.setId(id);
         PhotoFile photoFile = new PhotoFile(photo);
         try {
             Document document = photoFile.getDocument();

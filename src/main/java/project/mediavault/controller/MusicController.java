@@ -1,12 +1,14 @@
 package project.mediavault.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import project.mediavault.model.Music;
 import project.mediavault.service.MusicService;
+
+import java.util.List;
 
 /**
  * Music Controller / APIs
@@ -14,6 +16,7 @@ import project.mediavault.service.MusicService;
 @RestController
 @RequestMapping("/api/music")
 public class MusicController {
+
     private MusicService musicService;
 
     @Autowired
@@ -23,6 +26,40 @@ public class MusicController {
 
     @GetMapping
     public ResponseEntity<ModelMap> getAllList() {
-        return null;
+        List<Music> musicList = musicService.getAllList();
+        ModelMap result = new ModelMap("isSuccessful", true)
+                .addAttribute("data", musicList);
+        return ResponseEntity.ok(result);
     }
+
+    @PostMapping
+    public ResponseEntity<ModelMap> add(@RequestBody Music music) {
+        boolean isSuccessful = musicService.saveNewMusic(music);
+        ModelMap result = new ModelMap("isSuccessful", isSuccessful);
+        if (isSuccessful) {
+            return ResponseEntity.ok(result);
+        } else {
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ModelMap> delete(@PathVariable("id") int id) {
+        boolean isSuccessful = musicService.deleteMusic(id);
+        ModelMap result = new ModelMap("isSuccessful", isSuccessful);
+        if (isSuccessful) {
+            return ResponseEntity.ok(result);
+        } else {
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ModelMap> getDetails(@PathVariable("id") int id) {
+        Music music = musicService.getMusicById(id);
+        ModelMap result = new ModelMap("isSuccessful", true)
+                .addAttribute("data", music);
+        return ResponseEntity.ok(result);
+    }
+
 }

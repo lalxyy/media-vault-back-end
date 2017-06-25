@@ -1,7 +1,13 @@
 package project.mediavault.filemodel;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import project.mediavault.model.Photo;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class PhotoFile {
 
@@ -57,24 +63,6 @@ public class PhotoFile {
         updateDocumentFromPhoto();
     }
 
-    public double getRating() {
-        return photo.getRating();
-    }
-
-    public void setRating(double rating) {
-        photo.setRating(rating);
-        updateDocumentFromPhoto();
-    }
-
-    public String getThumbnailURL() {
-        return photo.getThumbnailURL();
-    }
-
-    public void setThumbnailURL(String thumbnailURL) {
-        photo.setThumbnailURL(thumbnailURL);
-        updateDocumentFromPhoto();
-    }
-
     public String getFileURL() {
         return photo.getFileURL();
     }
@@ -96,14 +84,41 @@ public class PhotoFile {
     // TODO Extra Fields
 
 
-
     // TODO Update Document
     private void updateDocumentFromPhoto() {
-        //
+        try {
+            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        Document d = document;
+        Node rootElement = d.createElement("photo");
+
+        Node idElement = d.createElement("id");
+        idElement.appendChild(d.createTextNode("" + getId()));
+        Node titleElement = d.createElement("title");
+        titleElement.appendChild(d.createTextNode(getTitle()));
+        Node fileURLElement = d.createElement("fileURL");
+        fileURLElement.appendChild(d.createTextNode(getFileURL()));
+        Node sizeElement = d.createElement("size");
+        sizeElement.appendChild(d.createTextNode("" + getSize()));
+
+        rootElement.appendChild(idElement);
+        rootElement.appendChild(titleElement);
+        rootElement.appendChild(fileURLElement);
+        rootElement.appendChild(sizeElement);
+
+        document.appendChild(rootElement);
     }
 
     private void updatePhotoFromDocument() {
-        //
+        Document d = document;
+        Photo photo = new Photo();
+        photo.setId(Integer.parseInt(d.getElementsByTagName("id").item(0).getTextContent()));
+        photo.setTitle(d.getElementsByTagName("title").item(0).getTextContent());
+        photo.setSize(Long.parseLong(d.getElementsByTagName("size").item(0).getTextContent()));
+        photo.setFileURL(d.getElementsByTagName("fileURL").item(0).getTextContent());
     }
 
 }

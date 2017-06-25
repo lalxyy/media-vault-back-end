@@ -20,10 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -69,7 +66,15 @@ public class MovieService {
     }
 
     public boolean saveNewMovie(Movie movie) {
-        movie.setId(movieFiles.size());
+        int id = 0;
+        Optional<Integer> nextId = movieFiles.stream()
+                .map(MovieFile::getId)
+                .max(Comparator.comparingInt(value -> value));
+        if (nextId.isPresent()) {
+            id = nextId.get() + 1;
+        }
+
+        movie.setId(id);
         MovieFile movieFile = new MovieFile(movie);
         try {
             Document document = movieFile.getDocument();

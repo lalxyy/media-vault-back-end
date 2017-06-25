@@ -1,7 +1,13 @@
 package project.mediavault.filemodel;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import project.mediavault.model.Music;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Music file model.
@@ -108,12 +114,54 @@ public class MusicFile {
 
 
     // TODO Update Document
-    private void updateMusicFromDocument() {
-        //
+    private void updateDocumentFromMusic() {
+        try {
+            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        Document d = document;
+        Node rootElement = d.createElement("music");
+
+        Node idElement = d.createElement("id");
+        idElement.appendChild(d.createTextNode("" + getId()));
+        Node titleElement = d.createElement("title");
+        titleElement.appendChild(d.createTextNode(getTitle()));
+        Node thumbnailURLElement = d.createElement("thumbnailURL");
+        thumbnailURLElement.appendChild(d.createTextNode(getThumbnailURL()));
+        Node fileURLElement = d.createElement("fileURL");
+        fileURLElement.appendChild(d.createTextNode(getFileURL()));
+        Node sizeElement = d.createElement("size");
+        sizeElement.appendChild(d.createTextNode("" + getSize()));
+        Node ratingElement = d.createElement("rating");
+        ratingElement.appendChild(d.createTextNode("" + getRating()));
+
+        rootElement.appendChild(idElement);
+        rootElement.appendChild(titleElement);
+        rootElement.appendChild(thumbnailURLElement);
+        rootElement.appendChild(fileURLElement);
+        rootElement.appendChild(sizeElement);
+        rootElement.appendChild(ratingElement);
+
+        Node durationElement = d.createElement("duration");
+        durationElement.appendChild(d.createTextNode(getDuration()));
+        rootElement.appendChild(durationElement);
+
+        document.appendChild(rootElement);
     }
 
-    private void updateDocumentFromMusic() {
-        //
+    private void updateMusicFromDocument() {
+        Document d = document;
+        Music music = new Music();
+        music.setId(Integer.parseInt(d.getElementsByTagName("id").item(0).getTextContent()));
+        music.setTitle(d.getElementsByTagName("title").item(0).getTextContent());
+        music.setSize(Long.parseLong(d.getElementsByTagName("size").item(0).getTextContent()));
+        music.setFileURL(d.getElementsByTagName("fileURL").item(0).getTextContent());
+        music.setThumbnailURL(d.getElementsByTagName("thumbnailURL").item(0).getTextContent());
+        music.setRating(Double.parseDouble(d.getElementsByTagName("rating").item(0).getTextContent()));
+        
+        music.setDuration(d.getElementsByTagName("duration").item(0).getTextContent());
     }
 
 }

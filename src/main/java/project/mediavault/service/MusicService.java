@@ -19,9 +19,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
 
 /**
@@ -37,7 +36,7 @@ public class MusicService {
 
     private DocumentBuilder documentBuilder;
     private Transformer transformer;
-    private Set<MusicFile> musicFiles;
+    private Set<MusicFile> musicFiles = new HashSet<>();
 
     @Autowired
     public MusicService(DocumentBuilder documentBuilder, TransformerFactory transformerFactory) throws IOException, SAXException, TransformerConfigurationException {
@@ -63,11 +62,21 @@ public class MusicService {
         return movieList;
     }
 
-    public boolean saveNewMusic(MusicFile musicFile) {
+    public boolean saveNewMusic(Music music) {
+        int id = 0;
+        Optional<Integer> nextId = musicFiles.stream()
+                .map(MusicFile::getId)
+                .max(Comparator.comparingInt(value -> value));
+        if (nextId.isPresent()) {
+            id = nextId.get() + 1;
+        }
+
+        music.setId(id);
+        MusicFile musicFile = new MusicFile(music);
         try {
             Document document = musicFile.getDocument();
             DOMSource domSource = new DOMSource(document);
-            File file = new File(DIR_FILES + musicFile.getId() + ".nfo");
+            File file = new File(DIR_FILES + "/" + musicFile.getId() + ".nfo");
             StreamResult streamResult = new StreamResult(file);
             transformer.transform(domSource, streamResult);
 
@@ -84,7 +93,7 @@ public class MusicService {
         try {
             Document document = musicFile.getDocument();
             DOMSource domSource = new DOMSource(document);
-            File file = new File(DIR_FILES + musicFile.getId() + ".nfo");
+            File file = new File(DIR_FILES + "/" + musicFile.getId() + ".nfo");
             StreamResult streamResult = new StreamResult(file);
             transformer.transform(domSource, streamResult);
 
@@ -107,7 +116,7 @@ public class MusicService {
         }
 
         try {
-            Files.delete(Paths.get(DIR_FILES + musicFile.getId() + ".nfo"));
+            Files.delete(Paths.get(DIR_FILES + "/" + musicFile.getId() + ".nfo"));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
