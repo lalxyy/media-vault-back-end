@@ -11,5 +11,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Music extends Media {
-    private String time;
+    // Basic Media Information of Music
+    private String duration; // "Length of movie in minutes", but what if duration = mm:ss ? [Using String]
+
 }
