@@ -114,7 +114,7 @@ public class TVShowService {
 
         try {
             tvShowFiles.remove(tvShowFile);
-            Files.delete(Paths.get(DIR_FILES + tvShowFile.getId() + "/" + ".nfo"));
+            Files.delete(Paths.get(DIR_FILES  + "/" + tvShowFile.getId() +".nfo"));
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -212,7 +212,7 @@ public class TVShowService {
             if (tvShowFile.getEpisodeIds().contains(episodeFile.getId()) && episodeFile.getSeason() == season && episodeFile.getEpisode() == episode) {
                 try {
                     episodeFiles.remove(episodeFile);
-                    Files.delete(Paths.get(DIR_EPISODES + episodeFile.getId() + "/" + ".nfo"));
+                    Files.delete(Paths.get(DIR_EPISODES + "/" + episodeFile.getId() + ".nfo"));
                     tvShowFile.getEpisodeIds().remove(episodeFile.getId());
                     return modify(tvShowFile.getTVShow());
                 } catch (Exception e) {
@@ -238,7 +238,7 @@ public class TVShowService {
         try {
             Document document = episodeFile.getDocument();
             DOMSource domSource = new DOMSource(document);
-            File file = new File(DIR_FILES + "/" + episode.getId() + ".nfo");
+            File file = new File(DIR_EPISODES + "/" + episode.getId() + ".nfo");
             StreamResult streamResult = new StreamResult(file);
             transformer.transform(domSource, streamResult);
 

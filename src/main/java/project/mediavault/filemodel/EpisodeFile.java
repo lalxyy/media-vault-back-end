@@ -199,6 +199,20 @@ public class EpisodeFile {
         directorElement.appendChild(d.createTextNode(getDirector()));
         Node creditsElement = d.createElement("credits");
         creditsElement.appendChild(d.createTextNode(getCredits()));
+
+        rootElement.appendChild(idElement);
+        rootElement.appendChild(titleElement);
+        rootElement.appendChild(thumbnailURLElement);
+        rootElement.appendChild(fileURLElement);
+        rootElement.appendChild(sizeElement);
+        rootElement.appendChild(seasonElement);
+        rootElement.appendChild(episodeElement);
+        rootElement.appendChild(durationElement);
+        rootElement.appendChild(airedElement);
+        rootElement.appendChild(plotElement);
+        rootElement.appendChild(directorElement);
+        rootElement.appendChild(creditsElement);
+        document.appendChild(rootElement);
     }
 
 }
