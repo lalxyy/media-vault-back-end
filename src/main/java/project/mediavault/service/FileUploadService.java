@@ -39,7 +39,7 @@ public class FileUploadService {
                 channel.write(byteBuffer);
             }
 
-            return "/data/" + fileName;
+            return "/user-data/" + fileName;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
