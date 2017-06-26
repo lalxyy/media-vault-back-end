@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -45,6 +46,22 @@ public class MediaVaultApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**");
+			}
+		};
+	}
+
+	@Bean
+	public WebMvcConfigurer staticResourceConfigurer() {
+    	return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addResourceHandlers(ResourceHandlerRegistry registry) {
+				registry.addResourceHandler("/**")
+						.addResourceLocations("classpath:/META-INF/resources/")
+						.addResourceLocations("classpath:/resources/")
+						.addResourceLocations("classpath:/static/")
+						.addResourceLocations("classpath:/public/");
+				registry.addResourceHandler("/user-data/**")
+						.addResourceLocations("file:" + MediaVaultApplication.BASE_DIR + "/data/");
 			}
 		};
 	}
