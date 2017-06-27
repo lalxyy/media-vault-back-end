@@ -89,7 +89,7 @@ public class TVShowController {
                                                   @RequestParam("episode") int episode) {
         if (tvShowService.deleteEpisode(id, season, episode)) {
             return ResponseEntity.ok(new ModelMap("isSuccessful", true));
-        } else { // TODO "Internal Server Error"
+        } else {
             return new ResponseEntity<>(new ModelMap(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 //        return ResponseEntity.ok(new ModelMap("success", true));
