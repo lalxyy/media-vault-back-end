@@ -121,7 +121,7 @@ public class MovieService {
 
         try {
             movieFiles.remove(movieFile);
-            Files.delete(Paths.get(DIR_FILES + movieFile.getId() + "/" + ".nfo"));
+            Files.delete(Paths.get(DIR_FILES + "/" + movieFile.getId() + ".nfo"));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
