@@ -100,8 +100,8 @@ public class TVShowController {
      *
      * @return result
      */
-    @DeleteMapping
-    public ResponseEntity<ModelMap> deleteTVShow(@RequestParam("id") int id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ModelMap> deleteTVShow(@PathVariable("id") int id) {
         boolean isSuccessful = tvShowService.delete(id);
         ModelMap result = new ModelMap("isSuccessful", isSuccessful);
         if (isSuccessful) {

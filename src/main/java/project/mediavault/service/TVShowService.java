@@ -109,6 +109,7 @@ public class TVShowService {
             }
         }
         if (tvShowFile == null) {
+            System.err.println("delete: null TVShowFile");
             return false;
         }
 

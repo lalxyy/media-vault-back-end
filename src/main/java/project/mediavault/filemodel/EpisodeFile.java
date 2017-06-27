@@ -156,7 +156,7 @@ public class EpisodeFile {
         episode.setThumbnailURL(d.getElementsByTagName("thumbnailURL").item(0).getTextContent());
 
         episode.setSeason(Integer.parseInt(d.getElementsByTagName("season").item(0).getTextContent()));
-        episode.setEpisode(Integer.parseInt(d.getElementsByTagName("episode").item(0).getTextContent()));
+        episode.setEpisode(Integer.parseInt(d.getElementsByTagName("episode").item(1).getTextContent()));
         episode.setPlot(d.getElementsByTagName("plot").item(0).getTextContent());
         episode.setDuration(d.getElementsByTagName("duration").item(0).getTextContent());
         episode.setAired(d.getElementsByTagName("aired").item(0).getTextContent());
