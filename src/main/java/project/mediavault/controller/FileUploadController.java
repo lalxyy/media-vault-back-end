@@ -29,7 +29,7 @@ public class FileUploadController {
         this.fileUploadService = fileUploadService;
     }
 
-    @CrossOrigin(origins = "http://localhost:8377")
+//    @CrossOrigin(origins = "http://localhost:8377")
     @RequestMapping("/add")
     public ResponseEntity<ModelMap> uploadFile(@RequestParam("file") MultipartFile file) {
         String url = fileUploadService.writeFile(file);
