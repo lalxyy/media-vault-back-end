@@ -2,17 +2,26 @@ package project.mediavault.model;
 
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * Episodes of a TV Show
  */
+@Entity
 @Data
 public class Episode {
     // Basic (media) information
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String title;
     private int season;
     private int episode;
-    private String duration;
+    private int duration;
     private String aired;
 
     // Basic file information

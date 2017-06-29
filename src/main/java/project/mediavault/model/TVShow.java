@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Actor of a TV Show
  */
-
-
+@Entity
+@DiscriminatorValue("tv-show")
 @EqualsAndHashCode(callSuper = true)
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -23,42 +24,38 @@ public class TVShow extends Media {
     private String mpaa;
 
     // The information of the content of the TV Show
+    @ElementCollection
     private List<String> genres = new ArrayList<>();
+
     private String plot;
 
     // The episodes of a TV Show
-    private List<Integer> episodeIds = new ArrayList<>();
+    @OneToMany(targetEntity = Episode.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "tvshow_episode",
+            joinColumns = @JoinColumn(name = "tvshow_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "episode_id", referencedColumnName = "id")
+    )
+    private List<Episode> episodes = new ArrayList<>();
 
     // The actors of a TV Show
+    @OneToMany(targetEntity = Actor.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "tvshow_actor",
+            joinColumns = @JoinColumn(name = "tvshow_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id")
+    )
     private List<Actor> actors = new ArrayList<>();
 
+    @Entity
+    @Data
     public static class Actor {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private int id;
+
         private String name;
         private String role;
         private String thumbURL;
 
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getRole() {
-            return role;
-        }
-
-        public void setRole(String role) {
-            this.role = role;
-        }
-
-        public String getThumbURL() {
-            return thumbURL;
-        }
-
-        public void setThumbURL(String thumbURL) {
-            this.thumbURL = thumbURL;
-        }
     }
 }

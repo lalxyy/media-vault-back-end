@@ -1,10 +1,22 @@
-## (Running Prerequisites - Important)
+## About Assignment
+
+Carl Li, student number 20155134
+
+Linfeng Zhao, student number 20155298
+
+### About Delay
+
+We are very sorry for the late of the assignment. We have talked with you on the class of Monday about our situation: we encountered a bug in the front-end project logic, and back-end and whole user-interface in front-end project were finished. Now we fix the problem successfully and modify some of the design. Some extra information can be checked on commit histories of our GitHub repository.
+
+## Running Prerequisites - Important
+
+### About Deployment !! IMPORTANT !!
+
+​	Copy the directory `(project-root)\data` to `C:\media` or other path you want to; if you want to use other paths, MUST change the value `BASE_DIR` in `MediaVaultApplication.java`, or the program won't find its data!
 
 ### About Zooming
 
 ​	Because of the size of the elements, you may need to adjust the zooming factor of the browser.
-
-
 
 ## Navigation Map and its Summary 
 
@@ -18,7 +30,7 @@
 
 ​	Additionlly, the upload function is provided in the "Upload" page. There is two tabs in the page. The first tab is to upload four basic media types (TV Shows / Movies / Music / Photos). The second tab provides the functionality of uploading new episodes to a existing TV Show.
 
-【等待完善，直接放一张图就行】
+![Diagram3](Diagram 3.png)
 
 ## Summary of design decisions
 
@@ -26,7 +38,7 @@
 
 ​	For back-end, we devide the whole project to four layers as following for utilitizing development for our team of two:
 
-【配图，OmniGraffle的图1】
+![Diagram1](Diagram 1.png)
 
 ​	The explanations of the each layer are in the following section.
 
@@ -61,7 +73,7 @@ public abstract class Media {
 }
 ```
 
-​	**In addition, the `Lombok` Library is used for automatically invoking the getters and setters.** 【这块是这么说么？？？？】
+​	**In addition, the `Lombok` Library is used for automatically invoking the getters and setters.** 
 
 #### File Model Layer
 
@@ -389,7 +401,7 @@ public class MovieController {
 
 ​	For fully demonstrating the structure the back-end project, the diagram of the relationship of the classes of each layer is provided and shown below:
 
-​	【图！！！！】
+​	![Diagram2](Diagram 2.png)
 
 ​	Each rectangle means a Java class.
 
@@ -411,9 +423,10 @@ public class MovieController {
    2. Java XML Manuplication
    3. Some APIs of Spring Framework
 
-4. Delopyment Approach
+4. Deployment Approach
 
-   1. 【！？！？？！！？！这块不太了解，可能需要老板补充一下，】
+   1. Actually the front-end and the back-end could be separately deployed; change the content in `BaseURL.js` to let the front-end know where the back-end is.
+   2. The hand-in version (`.war`) bundled front-end and back-end together.
 
 ### Innovations Features of Front-End
 
@@ -443,8 +456,19 @@ public class MovieController {
 2. A Search User Interface using Ajax which shows the search results real-time (synchronizing with the keystrokes)
 
 
-```
-// 加上那个搜索的地方的代码！！
+```javascript
+// Vue.js computed property
+computed: {
+      filteredTableData () {
+        return this.entireData.filter(data => {
+          if (this.input === '') {
+            return true;
+          } else {
+            return data.title.toLowerCase().includes(this.input.toLowerCase());
+          }
+        })
+      }
+}
 ```
 
 
@@ -453,7 +477,7 @@ public class MovieController {
 ### Problems of the System
 
 1. The design of the system needs to be polished more. The goal of the front-end design is to close to the Plex.
-2. 【？！？！？补充一下】
+2. Due to the complexity of the system, a little details might be missing in the media detail page.
 
 
 
@@ -461,4 +485,4 @@ public class MovieController {
 
 ​	For each layer, we contribute almost the same as each other.
 
-​	The Spring Framework is introduced and constructed by `Carl Li` and the document is mainly writed by `Linfeng Zhao`.
+​	The Spring Framework is introduced and constructed by  `Carl Li` and the document is mainly writed by `Linfeng Zhao`.

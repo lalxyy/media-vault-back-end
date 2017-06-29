@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +13,20 @@ import java.util.List;
  *
  * @author Carl Li
  */
+@Entity
+@DiscriminatorValue("movie")
 @EqualsAndHashCode(callSuper = true)
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie extends Media {
     // Basic Media Information of Movie
-    private String duration; // "Length of movie in minutes", but what if duration = mm:ss ? [Using String]
+    private int duration; // second
 
-    // The informationx of the content of the Movie
+    // The information of the content of the Movie
+
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> genres = new ArrayList<>();
+
     private String plot;
 
 }

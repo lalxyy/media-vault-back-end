@@ -2,11 +2,18 @@ package project.mediavault.model;
 
 import lombok.Data;
 
+import javax.persistence.*;
 
+@Entity
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @Data
 public abstract class Media {
     // Basic Media Information
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String title;
     private double rating;
 
