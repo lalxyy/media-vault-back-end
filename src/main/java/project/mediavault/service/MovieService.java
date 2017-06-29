@@ -3,6 +3,7 @@ package project.mediavault.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.mediavault.model.Movie;
+import project.mediavault.repository.MovieRepository;
 
 import java.util.*;
 
@@ -15,29 +16,44 @@ import java.util.*;
 @Service
 public class MovieService {
 
+    private MovieRepository movieRepository;
+
     @Autowired
-    public MovieService() {
-        //
+    public MovieService(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
     }
 
     public List<Movie> getAllList() {
-        return null;
+        return movieRepository.findAll();
     }
 
     public boolean saveNewMovie(Movie movie) {
-        return false;
+        try {
+            movieRepository.save(movie);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean modifyExistedMovie(Movie movie) {
-        return false;
+        // TODO Temporary
+        return saveNewMovie(movie);
     }
 
     public boolean deleteMovie(int id) {
-        return false;
+        try {
+            movieRepository.delete(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public Movie getMovieById(int id) {
-        return null;
+        return movieRepository.findOne(id);
     }
 
 }

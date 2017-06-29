@@ -30,7 +30,7 @@ public class TVShow extends Media {
     private String plot;
 
     // The episodes of a TV Show
-    @OneToMany(targetEntity = Episode.class, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Episode.class)
     @JoinTable(name = "tvshow_episode",
             joinColumns = @JoinColumn(name = "tvshow_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "episode_id", referencedColumnName = "id")
@@ -38,24 +38,10 @@ public class TVShow extends Media {
     private List<Episode> episodes = new ArrayList<>();
 
     // The actors of a TV Show
-    @OneToMany(targetEntity = Actor.class, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Actor.class)
     @JoinTable(name = "tvshow_actor",
             joinColumns = @JoinColumn(name = "tvshow_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id")
     )
     private List<Actor> actors = new ArrayList<>();
-
-    @Entity
-    @Data
-    public static class Actor {
-
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-
-        private String name;
-        private String role;
-        private String thumbURL;
-
-    }
 }

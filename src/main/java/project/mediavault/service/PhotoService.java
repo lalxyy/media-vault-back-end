@@ -3,6 +3,7 @@ package project.mediavault.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.mediavault.model.Photo;
+import project.mediavault.repository.PhotoRepository;
 
 import java.util.*;
 
@@ -10,29 +11,44 @@ import java.util.*;
 @Service
 public class PhotoService {
 
+    private PhotoRepository photoRepository;
+
     @Autowired
-    public PhotoService() {
-        //
+    public PhotoService(PhotoRepository photoRepository) {
+        this.photoRepository = photoRepository;
     }
 
     public List<Photo> getAllList() {
-        return null;
+        return photoRepository.findAll();
     }
 
     public boolean saveNewPhoto(Photo photo) {
-        return false;
+        try {
+            photoRepository.save(photo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean modifyExistedPhoto(Photo photo) {
-        return false;
+        // TODO Temporary
+        return saveNewPhoto(photo);
     }
 
     public boolean deletePhoto(int photoId) {
-        return false;
+        try {
+            photoRepository.delete(photoId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public Photo getPhotoById(int id) {
-        return null;
+        return photoRepository.findOne(id);
     }
 
 }

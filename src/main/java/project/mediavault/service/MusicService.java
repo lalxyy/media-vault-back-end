@@ -3,6 +3,7 @@ package project.mediavault.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.mediavault.model.Music;
+import project.mediavault.repository.MusicRepository;
 
 import java.util.*;
 
@@ -14,29 +15,44 @@ import java.util.*;
 @Service
 public class MusicService {
 
+    private MusicRepository musicRepository;
+
     @Autowired
-    public MusicService() {
-        //
+    public MusicService(MusicRepository musicRepository) {
+        this.musicRepository = musicRepository;
     }
 
     public List<Music> getAllList() {
-        return null;
+        return musicRepository.findAll();
     }
 
     public boolean saveNewMusic(Music music) {
-        return false;
+        try {
+            musicRepository.save(music);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean modifyExistedMusic(Music music) {
-        return false;
+        // TODO Temporary
+        return saveNewMusic(music);
     }
 
     public boolean deleteMusic(int id) {
-        return false;
+        try {
+            musicRepository.delete(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public Music getMusicById(int id) {
-        return null;
+        return musicRepository.findOne(id);
     }
 
 }

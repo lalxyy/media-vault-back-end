@@ -118,9 +118,9 @@ public class TVShowController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ModelMap> getTVShow(@PathVariable("id") int id) {
-        Map<String, Object> map = tvShowService.getTVShowWithAllEpisode(id);
+        TVShow tvShow = tvShowService.getTVShowWithAllEpisode(id);
         ModelMap result = new ModelMap("isSuccessful", true)
-                .addAttribute("data", map);
+                .addAttribute("data", tvShow);
         return ResponseEntity.ok(result);
     }
 

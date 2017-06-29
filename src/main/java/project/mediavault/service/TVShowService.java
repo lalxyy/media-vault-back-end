@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.mediavault.model.Episode;
 import project.mediavault.model.TVShow;
+import project.mediavault.repository.EpisodeRepository;
+import project.mediavault.repository.TVShowRepository;
 
 import java.util.*;
 
@@ -16,37 +18,62 @@ import java.util.*;
 @Service
 public class TVShowService {
 
+    private TVShowRepository tvShowRepository;
+    private EpisodeRepository episodeRepository;
+
     @Autowired
-    public TVShowService() {
-        //
+    public TVShowService(TVShowRepository tvShowRepository, EpisodeRepository episodeRepository) {
+        this.tvShowRepository = tvShowRepository;
+        this.episodeRepository = episodeRepository;
     }
 
-    public Map<String, Object> getTVShowWithAllEpisode(int id) {
-        return null;
+    public TVShow getTVShowWithAllEpisode(int id) {
+        return tvShowRepository.findOne(id);
     }
 
     public List<TVShow> getAllList() {
-        return null;
+        return tvShowRepository.findAll();
     }
 
     public boolean delete(int id) {
-        return false;
+        try {
+            tvShowRepository.delete(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean modify(TVShow tvShow) {
-        return false;
+        // TODO Temporary
+        return add(tvShow);
     }
 
     public boolean add(TVShow tvShow) {
-        return false;
+        try {
+            tvShowRepository.save(tvShow);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public List<Episode> getEpisodes(int id) {
-        return null;
+        return tvShowRepository.findOne(id).getEpisodes();
     }
 
     public boolean deleteEpisode(int id, int season, int episode) {
-        return false;
+        try {
+            tvShowRepository.findOne(id).getEpisodes().removeIf(
+                    episodeItem -> episodeItem.getSeason() == season && episodeItem.getEpisode() == episode
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean addEpisode(int tvShowId, Episode episode) {
