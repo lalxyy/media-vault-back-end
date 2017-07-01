@@ -1,9 +1,14 @@
 package project.mediavault.service;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import project.mediavault.model.Actor;
 import project.mediavault.model.Episode;
 import project.mediavault.model.TVShow;
+import project.mediavault.repository.ActorRepository;
 import project.mediavault.repository.EpisodeRepository;
 import project.mediavault.repository.TVShowRepository;
 
@@ -20,11 +25,13 @@ public class TVShowService {
 
     private TVShowRepository tvShowRepository;
     private EpisodeRepository episodeRepository;
+    private ActorRepository actorRepository;
 
     @Autowired
-    public TVShowService(TVShowRepository tvShowRepository, EpisodeRepository episodeRepository) {
+    public TVShowService(TVShowRepository tvShowRepository, EpisodeRepository episodeRepository, ActorRepository actorRepository) {
         this.tvShowRepository = tvShowRepository;
         this.episodeRepository = episodeRepository;
+        this.actorRepository = actorRepository;
     }
 
     public TVShow getTVShowWithAllEpisode(int id) {
@@ -52,6 +59,7 @@ public class TVShowService {
 
     public boolean add(TVShow tvShow) {
         try {
+            actorRepository.save(tvShow.getActors());
             tvShowRepository.save(tvShow);
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,9 +74,11 @@ public class TVShowService {
 
     public boolean deleteEpisode(int id, int season, int episode) {
         try {
-            tvShowRepository.findOne(id).getEpisodes().removeIf(
+            TVShow tvShow = tvShowRepository.findOne(id);
+            tvShow.getEpisodes().removeIf(
                     episodeItem -> episodeItem.getSeason() == season && episodeItem.getEpisode() == episode
             );
+            episodeRepository.deleteBySeasonAndEpisode(season, episode);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -77,7 +87,16 @@ public class TVShowService {
     }
 
     public boolean addEpisode(int tvShowId, Episode episode) {
-        return false;
+        try {
+            TVShow tvShow = tvShowRepository.findOne(tvShowId);
+            episodeRepository.save(episode);
+            tvShow.getEpisodes().add(episode);
+            tvShowRepository.save(tvShow);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 }

@@ -7,5 +7,7 @@ import project.mediavault.model.Episode;
 
 @Repository
 public interface EpisodeRepository extends JpaRepository<Episode, Integer>, JpaSpecificationExecutor<Episode> {
-    //
+
+    void deleteBySeasonAndEpisode(int season, int episode);
+
 }
