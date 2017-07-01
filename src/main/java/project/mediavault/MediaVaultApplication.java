@@ -19,8 +19,8 @@ import javax.xml.xpath.XPathFactory;
 @SpringBootApplication
 public class MediaVaultApplication {
 
-//	public static final String BASE_DIR = System.getProperty("user.dir") + "/data";
-	public static final String BASE_DIR = "C:\\media" + "\\data";
+	public static final String BASE_DIR = System.getProperty("user.dir") + "/data";
+//	public static final String BASE_DIR = "C:\\media" + "\\data";
 
     public static void main(String[] args) {
 		SpringApplication.run(MediaVaultApplication.class, args);
