@@ -54,6 +54,18 @@ public class PhotoController {
         }
     }
 
+    @DeleteMapping
+    public ResponseEntity<ModelMap> deleteMultiple(@RequestParam("id[]") List<Integer> idList) {
+        for (int id: idList) {
+            if (!photoService.deletePhoto(id)) {
+                ModelMap result = new ModelMap("isSuccessful", false);
+                return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        ModelMap result = new ModelMap("isSuccessful", true);
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ModelMap> getDetails(@PathVariable("id") int id) {
         Photo photo = photoService.getPhotoById(id);

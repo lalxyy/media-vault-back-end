@@ -9,6 +9,9 @@ import java.io.RandomAccessFile;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.SecureRandom;
 
 /**
@@ -17,7 +20,7 @@ import java.security.SecureRandom;
  * @author Carl Li
  */
 @Service
-public class FileUploadService {
+public class FileService {
 
     private static final String BASE_DIR = MediaVaultApplication.BASE_DIR + "/data/";
 
@@ -43,6 +46,15 @@ public class FileUploadService {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public void deleteFile(String fileName) throws IOException {
+        String absoluteFilePath = BASE_DIR + fileName;
+        Path path = Paths.get(absoluteFilePath);
+
+        if (Files.exists(path)) {
+            Files.delete(path);
         }
     }
 
