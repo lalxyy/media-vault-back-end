@@ -111,6 +111,18 @@ public class TVShowController {
         }
     }
 
+    @DeleteMapping
+    public ResponseEntity<ModelMap> deleteMultiple(@RequestParam("id[]") List<Integer> idList) {
+        for (int id: idList) {
+            if (!tvShowService.delete(id)) {
+                ModelMap result = new ModelMap("isSuccessful", false);
+                return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        ModelMap result = new ModelMap("isSuccessful", true);
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/{id}/episode")
     public ResponseEntity<ModelMap> getEpisodes(@PathVariable("id") int id) {
         return ResponseEntity.ok(new ModelMap("data", tvShowService.getEpisodes(id)).addAttribute("isSuccessful", true));

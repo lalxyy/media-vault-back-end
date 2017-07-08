@@ -1,6 +1,7 @@
 package project.mediavault.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -69,6 +70,24 @@ public class MovieController {
     public ResponseEntity<ModelMap> deleteMovie(@PathVariable("id") int id) {
         boolean result = movieService.deleteMovie(id);
         return ResponseEntity.ok(new ModelMap("isSuccessful", result));
+    }
+
+    /**
+     * Delete the items at one time
+     *
+     * @param idList a list of items
+     * @return a ResponseEntity of ModelMap of the deletion result
+     */
+    @DeleteMapping
+    public ResponseEntity<ModelMap> deleteMultiple(@RequestParam("id[]") List<Integer> idList) {
+        for (int id: idList) {
+            if (!movieService.deleteMovie(id)) {
+                ModelMap result = new ModelMap("isSuccessful", false);
+                return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        ModelMap result = new ModelMap("isSuccessful", true);
+        return ResponseEntity.ok(result);
     }
 
     /**
