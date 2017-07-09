@@ -9,8 +9,6 @@ import java.util.*;
 
 /**
  * Music Service.
- *
- * @author Carl Li
  */
 @Service
 public class MusicService {

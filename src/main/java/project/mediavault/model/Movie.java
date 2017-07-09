@@ -10,8 +10,6 @@ import java.util.List;
 
 /**
  * Movie model.
- *
- * @author Carl Li
  */
 @Entity
 @DiscriminatorValue("movie")

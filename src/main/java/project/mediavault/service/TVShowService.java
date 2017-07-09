@@ -16,8 +16,6 @@ import java.util.*;
 
 /**
  * CRUD Bean for TV Show.
- *
- * @author Carl Li
  */
 @SuppressWarnings("Duplicates")
 @Service

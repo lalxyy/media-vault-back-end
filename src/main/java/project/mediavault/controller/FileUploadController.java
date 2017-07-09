@@ -9,8 +9,6 @@ import project.mediavault.service.FileService;
 
 /**
  * File Upload Controller.
- *
- * @author Carl Li
  */
 @RestController
 @RequestMapping("/api/files")

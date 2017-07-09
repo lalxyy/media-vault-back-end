@@ -9,8 +9,6 @@ import java.util.*;
 
 /**
  * Movie Service.
- *
- * @author Carl Li
  */
 @SuppressWarnings("Duplicates")
 @Service

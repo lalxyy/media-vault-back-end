@@ -16,8 +16,6 @@ import java.security.SecureRandom;
 
 /**
  * File Upload Service.
- *
- * @author Carl Li
  */
 @Service
 public class FileService {

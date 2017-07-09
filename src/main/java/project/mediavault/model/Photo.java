@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 
 /**
  * Photo model.
- *
- * @author Carl Li
  */
 @Entity
 @DiscriminatorValue("photo")

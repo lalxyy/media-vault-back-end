@@ -14,8 +14,6 @@ import java.util.Map;
 
 /**
  * TV Show & Episode Controller / APIs
- *
- * @author Carl Li
  */
 @RestController
 @RequestMapping("/api/tv-show")

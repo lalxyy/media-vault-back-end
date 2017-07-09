@@ -9,8 +9,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 /**
  * Web Security Configuration.
- *
- * @author Carl Li
  */
 @Configuration
 @EnableWebSecurity

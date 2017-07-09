@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 
 /**
  * Music model.
- *
- * @author Carl Li
  */
 @Entity
 @DiscriminatorValue("music")

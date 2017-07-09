@@ -7,6 +7,9 @@ import project.mediavault.repository.PhotoRepository;
 
 import java.util.*;
 
+/**
+ * Music Service.
+ */
 @SuppressWarnings("Duplicates")
 @Service
 public class PhotoService {

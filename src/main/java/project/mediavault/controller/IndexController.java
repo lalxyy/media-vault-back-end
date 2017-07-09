@@ -10,8 +10,6 @@ import java.util.Map;
 
 /**
  * Hello World Controller.
- *
- * @author Carl Li
  */
 @RestController
 @RequestMapping("/api")
