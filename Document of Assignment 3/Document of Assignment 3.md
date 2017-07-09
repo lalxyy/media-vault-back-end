@@ -4,7 +4,7 @@ Carl Li, student number 20155134
 
 Linfeng Zhao, student number 20155298
 
-### About Delay
+### About Delay (Assignment 2)
 
 We are very sorry for the late of the assignment. We have talked with you on the class of Monday about our situation: we encountered a bug in the front-end project logic, and back-end and whole user-interface in front-end project were finished. Now we fix the problem successfully and modify some of the design. Some extra information can be checked on commit histories of our GitHub repository.
 
@@ -12,7 +12,9 @@ We are very sorry for the late of the assignment. We have talked with you on the
 
 ### About Deployment !! IMPORTANT !!
 
-​	Copy the directory `(project-root)\data` to `C:\media` or other path you want to; if you want to use other paths, MUST change the value `BASE_DIR` in `MediaVaultApplication.java`, or the program won't find its data!
+​	Create the MySQL database as in   `application.properties`. 
+
+​	Run the app by   `mvn spring-boot:run`.
 
 ### About Zooming
 
@@ -26,19 +28,17 @@ We are very sorry for the late of the assignment. We have talked with you on the
 
 1. The structure of the back-end project is redesigned to **communicate with MySQL database using ORM.**
    1. The File Model Layer is replaced by Repository Layer. The new design of the structure is shown in the diagrams in this document.
-   2. ...
 2. Some new APIs (Controller Layer) are used to optimize the performance, like an API for removing a list of media at one time to save the time of communication between back-end and front-end.
-3. Some modifications and improvements in the other layers.
+3. About database design: Spring Boot and its internal Hibernate would auto-detect the annotation-based models (`@Entity`, `@Column`) so the pattern of database is the same as the structure of model classes (`Media` as super class, `TVShow`, `Movie` as subclass, etc.).
+4. Some modifications and improvements in the other layers.
    1. A bug in deleting file is fixed. In Assignment 2, in some case the media files may not be removed although the records are removed in the database or the XML files.
    2. `Runtime` attribute in TV Shows is changed to `duration`. Some misunderstanding in the meaning of the attributes are modified.
-   3. ...
 
 ### Front-End
 
 1. Many improvements of User Interface.
    1. The style of some elements are modified to beautify the UI.
    2. Some new UI elements (`Element UI`) are introduced in the UI.
-   3. ...
 2. The List Mode and Thumbnail Mode are redesigned and now users can <u>choose multiple media files and delete them</u>.
 3. The details of media files can be changed now.
 4. ...
@@ -502,6 +502,14 @@ public class MovieController {
 
 ​	Each rectangle means a Java class.
 
+### Decision: Metadata XML Storage vs. Database Storage
+
+​	In assignment 2 we finished the metadata database in XML; In assignment 3 we migrated from XML to MySQL database.
+
+​	There is advantage with XML storage that XML is such a good type to store POJOs, in which tags could be easily mapped to objects or primitive data types in Java. However, for data accessing like `getAll()` method, it is necessary for the program I/O to open all the files, which would be slower to process than the relational database approach.
+
+​	For relational databases, data accessing could always be finished with a SQL statement, without the burden for developers to manage so many files, opening and closing. However, the object to relational mapping would be a little hard for developers to handle, without libraries like Hibernate or MyBatis. Since there are some kinds of ORMs available, in real world of software development, using database is a better choice.
+
 ## Comments on innovative features & Problems
 
 ### Innovative Features of Back-End
@@ -623,4 +631,4 @@ computed: {
 
 ​	For each layer, we contribute almost the same as each other.
 
-​	The Spring Framework is introduced and constructed by  `Carl Li` and the document is mainly writed by `Linfeng Zhao`.
+​	The Spring Framework is introduced and constructed by  `Carl Li` and the document is mainly written by `Linfeng Zhao`.
