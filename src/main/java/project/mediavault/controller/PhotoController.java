@@ -73,4 +73,16 @@ public class PhotoController {
                 .addAttribute("data", photo);
         return ResponseEntity.ok(result);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ModelMap> edit(@PathVariable("id") int id, @RequestBody Photo photo) {
+        photo.setId(id);
+        boolean result = photoService.modifyExistedPhoto(photo);
+        if (result) {
+            return ResponseEntity.ok(new ModelMap("isSuccessful", true));
+        } else {
+            return new ResponseEntity<>(new ModelMap("isSuccessful", false), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

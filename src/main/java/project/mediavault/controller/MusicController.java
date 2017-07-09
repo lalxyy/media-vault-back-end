@@ -74,4 +74,15 @@ public class MusicController {
         return ResponseEntity.ok(result);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ModelMap> edit(@PathVariable("id") int id, @RequestBody Music music) {
+        music.setId(id);
+        boolean result = musicService.modifyExistedMusic(music);
+        if (result) {
+            return ResponseEntity.ok(new ModelMap("isSuccessful", true));
+        } else {
+            return new ResponseEntity<>(new ModelMap("isSuccessful", false), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

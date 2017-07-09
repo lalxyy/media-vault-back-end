@@ -136,4 +136,15 @@ public class TVShowController {
         return ResponseEntity.ok(result);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ModelMap> edit(@PathVariable("id") int id, @RequestBody TVShow tvShow) {
+        tvShow.setId(id);
+        boolean result = tvShowService.modify(tvShow);
+        if (result) {
+            return ResponseEntity.ok(new ModelMap("isSuccessful", true));
+        } else {
+            return new ResponseEntity<>(new ModelMap("isSuccessful", false), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

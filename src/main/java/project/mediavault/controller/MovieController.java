@@ -104,4 +104,15 @@ public class MovieController {
         return ResponseEntity.ok(resultMap);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ModelMap> editMovie(@PathVariable("id") int id, @RequestBody Movie movie) {
+        movie.setId(id);
+        boolean result = movieService.modifyExistedMovie(movie);
+        if (result) {
+            return ResponseEntity.ok(new ModelMap("isSuccessful", true));
+        } else {
+            return new ResponseEntity<>(new ModelMap("isSuccessful", false), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
